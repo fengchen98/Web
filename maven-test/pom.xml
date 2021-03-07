@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- 组织ID：一般是公司名-->
+    <groupId>org.example</groupId>
+    <!-- 产品名：当前项目是一个产品-->
+    <artifactId>maven-test</artifactId>
+    <!-- 版本号-->
+    <version>1.0-SNAPSHOT</version>
+
+    <!-- 配置JDK的版本-->
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <!-- 配置依赖包-->
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.49</version>
+        </dependency>
+    </dependencies>
+
+
+
+</project>
