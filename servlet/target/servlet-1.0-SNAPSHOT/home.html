@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+    <script src="js/jquery@3.3.1/jquery.js"></script>
+    <script>
+        $(function () {//页面加载完开始执行
+            $("#loginBtn").click(function () {//按钮绑定点击事件
+                $.ajax({
+                    type: "post",
+                    url: "loginJSON",
+                    dataType: "json",//响应体中的数据格式
+                    data: {//请求数据
+                        username: $("#username").val(),
+                        password: $("#password").val(),
+                    },
+                    success(r){
+                        // alert(JSON.stringify(r))
+                        //r={success:true}
+                        if(r.success){
+                            $("#container").hide();
+                        }else{
+                            alert("用户名密码输入错误")
+                        }
+                    }
+                })
+            })
+        });
+    </script>
+</head>
+<body>
+<div id="container">
+    <!-- name表示请求数据的键 -->
+    用户名：<input id="username" type="text" name="username"><br>
+    密码：<input id="password" type="password" name="password"><br>
+    <input id="loginBtn" type="button" value="登录">
+</div>
+
+<p>第1篇文章</p>
+<p>第2篇文章</p>
+<p>第3篇文章</p>
+</body>
+</html>
