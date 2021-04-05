@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+        function mysub(type) {
+            var username=jQuery("#username");
+            var password=jQuery("#password");
+            if (type==2){
+                if (confirm("确认要删除吗？")){
+                    username.val("");
+                    password.val("");
+                }
+                return false;
+            }
+            if (username.val().trim()==""){
+                alert("请先输入用户名");
+                username.focus();
+                return false;
+            }
+            if (password.val().trim()==""){
+                alert("请先输入密码");
+                password.focus();
+                return false;
+            }
+            jQuery.getJSON("login",{"username":username.val(),"password":password.val()},
+                function (data) {
+                if (data!=null && data.succ==1){
+                    alert("登录成功！");
+                }else {
+                    alert("登录失败！"+data.msg);
+                }
+
+            });
+
+        }
+    </script>
+</head>
+<body>
+<div style="margin-top: 70px;text-align:center">
+    <h1>登录</h1>
+    &nbsp;&nbsp;用户名&nbsp;：<input id="username" name="username" type="text"><p></p>
+    &nbsp;&nbsp;&nbsp;&nbsp;密&nbsp;码&nbsp;：<input id="password" name="password" type="password"><p></p>
+    <input type="button" value=" 提 交 " onclick="mysub(1)">&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="button" value=" 清 除 " onclick="mysub(2)">
+</div>
+</body>
+</html>
