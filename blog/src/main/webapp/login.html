@@ -28,7 +28,7 @@
             jQuery.getJSON("login",{"username":username.val(),"password":password.val()},
                 function (data) {
                 if (data!=null && data.succ==1){
-                    alert("登录成功！");
+                    location.href="myartlist.html";
                 }else {
                     alert("登录失败！"+data.msg);
                 }
