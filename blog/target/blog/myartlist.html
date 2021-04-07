@@ -5,6 +5,21 @@
     <title>我的文章列表</title>
     <script src="jquery-1.9.1.min.js"></script>
     <script>
+       function mydel(id){
+           if (confirm("确认要删除吗？")){
+               jQuery.getJSON("mydel",{"id":id},function (data){
+                  if (data!=null && data.succ==1){
+                      alert("恭喜，删除成功！");
+                      location.href=location.href;
+                  }else {
+                      alert("删除失败"+data.msg);
+                  }
+               }
+               );
+           }
+
+       }
+
         jQuery(function () {
             jQuery.getJSON("myartlist",{},function (data) {
                 if (data!=null && data.succ==1){
@@ -25,7 +40,7 @@
                             article.rcount + "                \n" +
                             "            </td>\n" +
                             "            <td>\n" +
-                            "                修改 删除\n" +
+                            "                <a href='upart.html?id="+article.id+"'>修改</a> <a href='javascript:mydel("+article.id+");'>删除</a>\n" +
                             "            </td>\n" +
                             "        </tr>";
                     }
@@ -41,6 +56,8 @@
 <body>
 <div style="margin-top: 50px;text-align: center;">
     <h1>我的文章列表</h1>
+    <a href="addart.html">添加文章</a>
+    <hr>
     <table id="tab1" style="width: 80%;margin-left: 100px;" border="1">
         <tr>
             <td>

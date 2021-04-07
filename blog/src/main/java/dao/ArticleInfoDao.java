@@ -35,4 +35,68 @@ public class ArticleInfoDao {
         DBUtils.close(connection,statement,resultSet);
         return list;
     }
+
+
+    //删除文章
+    public int del(int id) throws SQLException {
+        int result=-1;
+        if (id > 0) {
+            Connection connection=DBUtils.getConnection();
+            String sql="delete from articleinfo where id=?";
+            PreparedStatement statement=connection.prepareStatement(sql);
+            statement.setInt(1,id);
+            result=statement.executeUpdate();
+            DBUtils.close(connection,statement,null);
+
+        }
+        return result;
+    }
+
+    //通过id获取文章
+    public ArticleInfo getArtById(int id) throws SQLException {
+        ArticleInfo articleInfo=new ArticleInfo();
+        if (id > 0) {
+            Connection connection = DBUtils.getConnection();
+            String sql = "select * from articleinfo where id=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                articleInfo.setId(resultSet.getInt("id"));
+                articleInfo.setTitle(resultSet.getString("title"));
+                articleInfo.setContent(resultSet.getString("content"));
+            }
+            DBUtils.close(connection, statement, resultSet);
+        }
+        return articleInfo;
+    }
+
+    //修改文章
+    public int upArt(int id, String title, String content) throws SQLException {
+        int result = 0;
+        Connection connection = DBUtils.getConnection();
+        String sql = "update articleinfo set title=?,content=? where id=?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, title);
+        statement.setString(2, content);
+        statement.setInt(3, id);
+        result = statement.executeUpdate();
+        DBUtils.close(connection, statement, null);
+        return result;
+    }
+
+    //添加文章
+    public int add(String title, String content, int uid) throws SQLException {
+        int result = 0;
+        Connection connection = DBUtils.getConnection();
+        String sql = "insert into articleinfo(title,content,uid) values(?,?,?)";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, title);
+        statement.setString(2, content);
+        statement.setInt(3, uid);
+        result = statement.executeUpdate();
+        DBUtils.close(connection, statement, null);
+        return result;
+    }
 }
+

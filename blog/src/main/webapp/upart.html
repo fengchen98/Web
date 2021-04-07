@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改文章</title>
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+        var id = 0; // 文章id
+
+        function mysub(type) {
+            var title=jQuery("#title");
+            var content=jQuery("#content");
+            if (type==2){
+                if (confirm("确认要删除吗？")){
+                    title.val("");
+                    content.val("");
+                }
+                return false;
+            }
+            if (title.val().trim()==""){
+                alert("请先输入标题");
+                title.focus();
+                return false;
+            }
+            if (content.val().trim()==""){
+                alert("请先输入文章内容");
+                content.focus();
+                return false;
+            }
+            jQuery.getJSON("upart", {
+                "id": id,
+                "title": title.val(),
+                "content": content.val()
+            }, function (data) {
+                if (data != null && data.succ == 1) {
+                    alert("恭喜：修改成功！");
+                } else {
+                    alert("抱歉：操作失败！" + data.msg);
+                }
+            });
+
+        }
+
+        jQuery(function () {
+            var params=location.search;
+            id=params.substring(1).split("=")[1];
+            jQuery.getJSON("init",{"id":id},function (data) {
+                if (data!=null && data.succ==1){
+                    jQuery("#title").val(data.art.title);
+                    jQuery("#content").val(data.art.content);
+                }else {
+                    alert("查询文章失败" + data.msg);
+                }
+
+            });
+
+        })
+
+    </script>
+</head>
+<body>
+<div style="margin-left: 50px;margin-top: 30px;">
+    <h1>文章修改</h1>
+    标题：<input id="title" type="text">
+    <p></p>
+    正文：<textarea style="width: 60%;height: 300px;" id="content">
+
+         </textarea>
+    <p></p>
+    <input value=" 提 交 " type="button" onclick="mysub(1)">
+    <input value=" 清 空 " type="button" onclick="mysub(2)">
+</div>
+</body>
+</html>
