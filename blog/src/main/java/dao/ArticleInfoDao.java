@@ -1,6 +1,7 @@
 package dao;
 
 import models.ArticleInfo;
+import models.vo.ArticleInfoVO;
 import utils.DBUtils;
 
 import java.sql.Connection;
@@ -53,11 +54,11 @@ public class ArticleInfoDao {
     }
 
     //通过id获取文章
-    public ArticleInfo getArtById(int id) throws SQLException {
-        ArticleInfo articleInfo=new ArticleInfo();
+    public ArticleInfoVO getArtById(int id) throws SQLException {
+        ArticleInfoVO articleInfo=new ArticleInfoVO();
         if (id > 0) {
             Connection connection = DBUtils.getConnection();
-            String sql = "select * from articleinfo where id=?";
+            String sql = "select a.* , u.username from articleinfo a left join userinfo u on  a.uid=u.id where a.id=?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -65,6 +66,9 @@ public class ArticleInfoDao {
                 articleInfo.setId(resultSet.getInt("id"));
                 articleInfo.setTitle(resultSet.getString("title"));
                 articleInfo.setContent(resultSet.getString("content"));
+                articleInfo.setUsername(resultSet.getString("username"));
+                articleInfo.setCreatetime(resultSet.getDate("createtime"));
+                articleInfo.setRcount(resultSet.getInt("rcount"));
             }
             DBUtils.close(connection, statement, resultSet);
         }
@@ -96,6 +100,38 @@ public class ArticleInfoDao {
         statement.setInt(3, uid);
         result = statement.executeUpdate();
         DBUtils.close(connection, statement, null);
+        return result;
+    }
+
+    public List<ArticleInfoVO> getListByPage(int page, int psize) throws SQLException {
+        List<ArticleInfoVO> list=new ArrayList<>();
+        Connection connection=DBUtils.getConnection();
+        String sql="select a.*,u.username from articleinfo a left join userinfo u on a.uid=u.id limit ?,?";
+        PreparedStatement statement=connection.prepareStatement(sql);
+        statement.setInt(1,(page-1)*psize);
+        statement.setInt(2,psize);
+        ResultSet resultSet=statement.executeQuery();
+        while (resultSet.next()){
+            ArticleInfoVO articleInfoVO=new ArticleInfoVO();
+            articleInfoVO.setId(resultSet.getInt("id"));
+            articleInfoVO.setTitle(resultSet.getString("title"));
+            articleInfoVO.setCreatetime(resultSet.getDate("createtime"));
+            articleInfoVO.setRcount(resultSet.getInt("rcount"));
+            articleInfoVO.setUsername(resultSet.getString("username"));
+            list.add(articleInfoVO);
+        }
+        DBUtils.close(connection,statement,resultSet);
+        return list;
+    }
+
+    // 阅读量+1
+    public int upRcount(int id) throws SQLException {
+        int result = 0;
+        Connection connection = DBUtils.getConnection();
+        String sql = "update articleinfo set rcount=rcount+1 where id=?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, id);
+        result = statement.executeUpdate();
         return result;
     }
 }
