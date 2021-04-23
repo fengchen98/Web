@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="20210421:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/20210421_jar</output-path>
+    <root id="archive" name="20210421.jar">
+      <element id="module-output" name="20210421" />
+    </root>
+  </artifact>
+</component>
