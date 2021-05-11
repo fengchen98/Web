@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/favicon.ico">
+    <link rel="canonical" href="https://getbootstrap.com/docs/3.4/examples/signin/">
+
+    <title>我的文章详情</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/examples/signin/signin.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+        function datefm(timespan) {
+            var date=new Date(timespan);
+            var y=date.getFullYear();
+            var m=date.getMonth()+1;
+            var d=date.getDate();
+            return y+"-"+m+"-"+d;
+        }
+
+        jQuery(function () {
+            var id=location.search.split("=")[1];
+            jQuery.getJSON("init",{"id":id},function (data) {
+                jQuery("#title").html(data.art.title);
+                jQuery("#content").html(data.art.content);
+                jQuery("#username").html(data.art.username);
+                jQuery("#createtime").html(datefm(data.art.createtime));
+                jQuery("#rcount").html(data.art.rcount);
+            })
+            jQuery.getJSON("addcount",{"id":id},function (data) {
+
+            });
+
+        });
+    </script>
+</head>
+<body>
+<div style="margin-top: 50px;margin-left: 50px">
+    <h1 id="title">标题：</h1>
+    正文:<div id="content"></div>
+    <hr>
+    <div style="text-align: right">
+        作者:<span id="username"></span>
+        &nbsp;&nbsp;
+        发布日期:<span id="createtime"></span>
+        &nbsp;&nbsp;
+        阅读量:<span id="rcount"></span>
+
+    </div>
+
+</div>
+</body>
+</html>

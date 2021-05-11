@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/favicon.ico">
+    <link rel="canonical" href="https://getbootstrap.com/docs/3.4/examples/signin/">
+
+    <title>修改文章</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/examples/signin/signin.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+        var id = 0; // 文章id
+
+        function mysub(type) {
+            var title=jQuery("#title");
+            var content=jQuery("#content");
+            if (type==2){
+                if (confirm("确认要删除吗？")){
+                    title.val("");
+                    content.val("");
+                }
+                return false;
+            }
+            if (title.val().trim()==""){
+                alert("请先输入标题");
+                title.focus();
+                return false;
+            }
+            if (content.val().trim()==""){
+                alert("请先输入文章内容");
+                content.focus();
+                return false;
+            }
+            jQuery.getJSON("upart", {
+                "id": id,
+                "title": title.val(),
+                "content": content.val()
+            }, function (data) {
+                if (data != null && data.succ == 1) {
+                    alert("恭喜：修改成功！");
+                    location.href="myartlist.html"
+                } else {
+                    alert("抱歉：操作失败！" + data.msg);
+                }
+            });
+
+        }
+
+        jQuery(function () {
+            var params=location.search;
+            id=params.substring(1).split("=")[1];
+            jQuery.getJSON("init",{"id":id},function (data) {
+                if (data!=null && data.succ==1){
+                    jQuery("#title").val(data.art.title);
+                    jQuery("#content").val(data.art.content);
+
+                }else {
+                    alert("查询文章失败" + data.msg);
+                }
+
+            });
+
+        })
+
+    </script>
+</head>
+<body>
+<div style="margin-left: 50px;margin-top: 30px;">
+    <h1>文章修改</h1>
+    标题：<input id="title" type="text">
+    <p></p>
+    正文：<textarea style="width: 60%;height: 300px;" id="content">
+
+         </textarea>
+    <p></p>
+    <input value=" 提 交 " type="button" onclick="mysub(1)">
+    <input value=" 清 空 " type="button" onclick="mysub(2)">
+</div>
+</body>
+</html>

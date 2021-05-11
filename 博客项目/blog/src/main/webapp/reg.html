@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/favicon.ico">
+    <link rel="canonical" href="https://getbootstrap.com/docs/3.4/examples/signin/">
+
+    <title>注册</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/examples/signin/signin.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+        function mysub(type) {
+            var username=jQuery("#username");
+            var password=jQuery("#password");
+            var password2=jQuery("#password2");
+            if (type==2){
+                if (confirm("确认要删除吗？")){
+                    username.val("");
+                    password.val("");
+                    password2.val("");
+                }
+                return false;
+            }
+
+            //1.非空校验
+            if (username.val().trim()=="" ){
+                alert("请先输入用户名");
+                username.focus();
+                return false;
+            }
+            if (password.val().trim()==""){
+                alert("请先输入用户名");
+                password.focus();
+                return false;
+            }if (password2.val().trim()==""){
+                alert("请先输入用户名");
+                password2.focus();
+                return false;
+            }
+            if (password.val().trim()!=password2.val().trim()){
+                alert("两次密码输入不一致，请重新输入！");
+                password2.focus();
+                return false;
+            }
+            //2.使用ajax请求后端
+            jQuery.getJSON(
+                "reg",{"username":username.val(),"password":password.val()},
+                function (data) {
+                    if (data!=null && data.succ==1){
+                        alert("注册成功！！！");
+                        location.href="login.html";
+                    }else {
+                        alert("注册失败"+data.msg);
+                    }
+                }
+            );
+        }
+    </script>
+</head>
+<body>
+<!--<div style="margin-top: 70px;text-align:center">-->
+<!--    <h1>注册</h1>-->
+<!--    &nbsp;&nbsp;用户名&nbsp;：<input id="username" name="username" type="text"><p></p>-->
+<!--    &nbsp;&nbsp;&nbsp;&nbsp;密&nbsp;码&nbsp;：<input id="password" name="password" type="password"><p></p>-->
+<!--    确认密码：<input id="password2" name="password2" type="password"><p></p>-->
+<!--    <input type="button" value=" 提 交 " onclick="mysub(1)">&nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--    <input type="button" value=" 清 除 " onclick="mysub(2)">-->
+<!--</div>-->
+
+<div class="container">
+
+    <form class="form-signin">
+        <h2 class="form-signin-heading" style="text-align: center">注&nbsp;册</h2>
+        <label for="username" class="sr-only">username</label>
+        <input id="username" name="username" type="text" class="form-control" placeholder="请输入用户名" required autofocus>
+
+        <label for="password" class="sr-only">password</label>
+        <input id="password" name="password" type="password" class="form-control" placeholder="请输入密码" required>
+
+        <label for="password2" class="sr-only">password2</label>
+        <input id="password2" name="password2" type="password" class="form-control" placeholder="请再次输入密码" required>
+
+        <div style="text-align: center">
+            <input type="button" value=" 提 交 " onclick="mysub(1)" >&nbsp;&nbsp;&nbsp;
+            <input type="button" value=" 清 除 " onclick="mysub(2)" >
+        </div>
+    </form>
+
+</div> <!-- /container -->
+
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.4/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+</body>
+</html>
