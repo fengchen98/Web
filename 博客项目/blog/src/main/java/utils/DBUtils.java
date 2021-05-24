@@ -19,9 +19,11 @@ public class DBUtils {
     public static Connection getConnection() throws SQLException {
         if (dataSource==null){
             dataSource=new MysqlDataSource();
+            //dataSource.setURL("jdbc:mysql://127.0.0.1:3306/java18blog?characterEncoding=utf-8");
             dataSource.setURL("jdbc:mysql://127.0.0.1:3306/blog?characterEncoding=utf-8");
             dataSource.setUser("root");
             dataSource.setPassword("12345678");
+            //dataSource.setPassword("111111");
         }
         return dataSource.getConnection();
     }
